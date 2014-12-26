@@ -1,0 +1,87 @@
+\vfill\eject\section{New Hash Function based on Generalized Knapsack Problem}\label{gck}
+In the implementation of our SADS, we found the hash function $h_{old}$ in PSTY~\cite{DBLP:conf/eurocrypt/PapamanthouSTY13} computationally costly both in terms of running time and key size.  
+We study both the algebraic and the security properties of the Generalized Compact Knapsack problem (GCK), and take a subclass of GCK hash functions to instantiate our SADS.
+
+{\bf Preliminaries.} We give a brief preliminary review on rings and ideals. Please refer to~\cite{algebrabook} for a comprehensive study. Let $\mathbb{Z}[x]$ and $\mathbb{R}[x]$ be the set of polynomials with integers and real coefficients. A polynomial is {\it monic} if the coefficient of the highest power is $1$. A polynomial is {\it irreducible} if it cannot be represented as a product of lower degree polynomials. Each polynomial corresponds to a vector of its coefficients. E.g., we can represent polynomial $a_{0}+\ldots+a_{k-1}x^{k-1}$ simply as $(a_{0},\ldots,a_{k-1})$. We define the $l_{p}$ norm $|g(x)|_{p}$ of a polynomial $g(x)$ as the norm of the corresponding vector.
+
+Let $R$ be a ring. An {\it ideal} $I$ of $R$ is an additive subgroup of $R$ closed under multiplication by arbitrary $g \in R$. For any ring $f \in R$, $\langle f \rangle$ denotes the set of all multiples of $f$. The quotient $R/I$ is the set of all equivalence classes $(g+I)$ of $R$ modulo $I$.
+
+Let $\mathcal{R}= \mathbb{Z}[x]/\langle f \rangle$ where $f$ is monic and irreducible. When $f$ is monic and of degree $k$, every equivalence calss $(g+\langle f \rangle) \in \mathbb{Z}[x]/\langle f \rangle$ has a unique representative $g^{'} \in (g+\langle f \rangle) $ of degree less than $k$. We define the norm $|(g+\langle f \rangle)|_{f}$ over ring $ \mathbb{Z}[x]/\langle f \rangle$ as $|g$ mod $f|_{\infty}$. As short hand, we write $|g|_{f}$ instead of $|(g+\langle f \rangle)|_{f}$. 
+
+In this paper, we focus on the ring $\mathcal{R}= \mathbb{Z}_{p}[\alpha]/(\alpha^{k}+1)$, where $k-1$ is the highest degree of an arbitrary $g \in \mathcal{R}$ and $p$ is a prime. 
+\subsection{Generalized Compact Knapsack Problem}
+We begin with a brief review of the Generalized Compact Knapsack problem. Lyubasevsky et al propose an efficient SWIFFT hash that is provably collision-resistant~\cite{swifft}. Finding a collision on the average with any noticeable probability is at least as hard as solving worst case problems for cyclic lattices. The SWIFFT function has a simple algebraic expression over the ring $\mathcal{R}= \mathbb{Z}_{p}[\alpha]/(\alpha^{k}+1)$. A particular function in the family is specified by $m$ fixed ${{\bf a}_{1},\ldots, {\bf a}_{m}} \in \mathcal{R}$. The function corresponds to the following expression over the ring $\mathcal{R}$:
+\[ \Sigma_{i=1}^{m} ({\bf a}_{i} \cdot {\bf x}_{i})   \,\, \in \mathcal{R},\]
+where ${\bf x}_{1} ,\ldots, {\bf x}_{m} \in \mathcal{R}$ are polynomials with binary coefficients, and corresponding to the input of length $k \cdot m$.
+
+The above formula is a special instance of generalized compact knapsack problem proposed in~\cite{GCK}. 
+\begin{defn}{\bf (GCK problem).}
+Given $m$ random elements ${\bf a}_{1},\ldots, {\bf a}_{m} \in \mathcal{R}$ for some ring, and a target ${\bf t} \in \mathcal{R}$, find elements ${\bf x}_{1}, \ldots, {\bf x}_{m} \in \mathcal{I}$ such that $\Sigma_{i=1}^{m} {\bf a}_{i}\cdot {\bf x}_{i} ={\bf t}$, where $\mathcal{I}$ is some given subset of $\mathcal{R}$.
+\end{defn}
+
+Lyubashevsky and Micciancio prove that for appropriate choices of $\mathcal{R}$ and $\mathcal{I}$, finding collisions in such hash functions is at least as hard as solving worst case hard problems on ideal lattices~\cite{GCK}. We present the constraints on $\mathcal{R}$ and $\mathcal{I}$ to make $\cal H$ collision-resistant~\cite{GCK}.
+\begin{enumerate}
+\item Ring $\mathcal{R}= \mathbb{Z}[\alpha]_{p}/\langle f \rangle$, where $f \in \mathbb{Z}[\alpha]$ is irreducible, monic polynomial of degree $n$ with expansion factor $EF(f,3) \leq \varepsilon$. The definition of expansion factor is as the following.
+\[ EF(f,q) = \max_{g \in \mathbb{Z}[\alpha], deg(g) \leq q(deg(f)-1)} |g|_{f}/|g|_{\infty}\] \label{CRcon1}
+\item $\mathcal{I}=\{g \in \mathcal{R}: |g|_{f} \leq d\}$, where $d$ is some positive integer. \label{CRcon2}
+\item It is required that $m > \log p / \log 2d$ and $p > 2 \varepsilon d mk^{1.5} \log k$.\label{CRcon3}
+\end{enumerate}
+
+\subsection{New Hash Function}\label{new_hash}
+We focus on the following GCK hash function family $\{{\cal H}_{\bf A}\}: \mathcal{D} \rightarrow \mathcal{R}$, where $\mathcal{D} = \mathcal{I}^{m} = \mathbb{Z}_{n}^{k\cdot m}$ and $\mathcal{R}= \mathbb{Z}[\alpha]_{p}/\langle \alpha^{k}+1 \rangle$. 
+
+Given input $X=[{\bf x}_{1}, {\bf x}_{2}, \ldots, {\bf x}_{m}] \in \mathcal{D}$, 
+\begin{equation}\label{product}
+ {\cal H}_{\bf A}(X) = \Sigma_{i=1}^{m} ({\bf a_{i} \cdot x_{i}})   \,\, \in \mathcal{R},
+\end{equation}
+where $A=[{\bf a}_{1},\ldots,{\bf a}_{m} ]$ and each ${\bf a}_{i}\in \mathcal{R}$.
+
+We construct a subclass of collision-resistant GCK hash functions from the above function family by careful parameter selection. First, since $EF(f,3) \leq 3$ is proved for $f=\alpha^{k}+1$ in~\cite{GCK}, $\varepsilon$ in the constraints above can be set to $3$. By picking a large enough prime $p$ such that $p/\log p > 6nk^{1.5} \log k$ and setting $m = \lceil \log p \rceil$, it is easy to check that conditions~\ref{CRcon1}~\ref{CRcon2}~\ref{CRcon3} for ${\cal H}_{\bf A}$ to be collision resistant are all met. %\babis{please put numbers and refer to equations above}
+%\babis{change $h_{old}$ to $h_{old}$ and $h_n$ to $h_{new}$}
+Second, we make ${\cal H}_{\bf A}$ achieve the desired level of security against the best known attack algorithms by additional constraints. Figure~\ref{config_alg} shows the algorithm of parameter configuration for our GCK hash function. In particular, constraints~\ref{constraint_1} and~\ref{constraint_4} make ${\cal H}_{\bf A}$ theoretically collision resistant; constraints~\ref{gba_constraint} and~\ref{lattice_constraint} ensure ${\cal H}_{\bf A}$ reaches the level of security $\lambda$ against the best known algorithms of the {\it generalized birthday attack}~\cite{wagner02} and the {\it lattice attack}~\cite{lattice} respectively. We study the cryptanalysis of ${\cal H}_{\bf A}$ in section~\ref{attacks}.
+\begin{figure}[h!]
+{\centering
+\framebox{\parbox{0.46\textwidth}{
+\paragraph{\textbf{Algorithm}  $\{k, p, m\} \leftarrow  (n, \lambda) $} 
+Let $k$ be a power of $2$ and $p$ be a prime. Find the smallest $k$ and then the smallest $p$ such that
+\begin{enumerate}
+\item $p/\log (p) > 6nk^{1.5} \log k$;\label{constraint_1}
+\item $2^{\lfloor{\log m} \rfloor} p^{k/(1+\lfloor{\log m} \rfloor)} \geq 2^{\lambda}$;\label{gba_constraint}
+\item $n\sqrt{km} < 2^{2\sqrt{k \log p \log \delta}}$;\label{lattice_constraint}
+\item $m = \lceil \log (p) \rceil$.\label{constraint_4}
+\end{enumerate}
+}}}
+\caption{\label{config_alg}Parameter configuration of our GCK hash function ${\cal H}_{\bf A}$.}
+\end{figure}
+
+% we can express it in the binary form using $m$ bits, denoted as $b_{m}(x)$. For any polynomial $g \in R$, we know in the vector form $g=(z_{1}, \ldots,z_{k}) \in [p]^{k}$ and each $z_{i} \in [p]$ can be expressed in the binary form using $m$ bits. Hence, for any $g=(z_{1}, \ldots,z_{k}) \in R$, it can be uniquely expressed in $D= \{0,1\}^{k \times m}$ as $[b_{m}(z_{1}), \ldots, b_{m}(z_{k})]^{\top}$. Consequently, the constructed ${\cal H}_{\bf A}$ here is a hash function from $D= \{0,1\}^{k \times m}$ to $R \subset D$.
+
+%\babis{PLEASE MAKE CONSISTENT $A$ and ${\bf A}$}
+We construct a new hash function for our SADS based on ${\cal H}_{\bf A}$, $h_{n}: \mathbb{Z}_{n}^{k\cdot m} \times \mathbb{Z}_{n}^{k \cdot m} \rightarrow \mathbb{Z}[\alpha]_{p}/\langle \alpha^{n}+1 \rangle$, as follows.
+\begin{equation} 
+h_{n}{\bf (x,y)} = {\cal H}_{L}{\bf (x)} + {\cal H}_{\mathcal{R}}{\bf (y)} \quad \mod\,\,p, 
+\end{equation}
+where $L, R$ are randomly chosen from $\mathbb{Z}[\alpha]_{p}^{m}/\langle \alpha^{k}+1 \rangle$. By similar arguments in section~\ref{instantiation}, $h_{n}$ belongs to the class of hash functions of the abstract SADS by Definition~\ref{hashfunction}. 
+
+The bottleneck in terms of efficiency of the GCK hash function ${\cal H}_{\bf A}$ is computing the product of two polynomials in Equation~\ref{product}. Similar as SWIFFT~\cite{swifft}, we use FFT for computing polynomial products. Notice $\alpha^{k}+1=0$, for $\alpha=e^{j \pi i / k}$ when $j$ is odd. Hence, we only need to do $k$ evaluations at $\omega^{j}$, where $\omega= e^{\pi i / k}$ and $j=1,3,\ldots,2k-1$, to interpolate the product polynomial in $\mathcal{R}= \mathbb{Z}[\alpha]_{p}/\langle \alpha^{k}+1 \rangle$.
+
+Notice every polynomial has a unique vector representation. In our implementation, we use a vector in $[p]^{k}$ to represent a ring in $\mathcal{R}= \mathbb{Z}[\alpha]_{p}/\langle \alpha^{k}+1 \rangle$. The algorithm of our GCK hash function is given in Figure~\ref{gck_alg}.
+\begin{figure}[h!]
+{\centering
+\framebox{\parbox{0.46\textwidth}{
+\paragraph{\textbf{Algorithm}  ${\bf z} \leftarrow  (X, A) $} 
+\begin{enumerate}
+\item Let input $X=[{\bf x}_{1}, \ldots, {\bf x}_{m}] \in [n]^{k\times m}$. Let ringe $\mathcal{R}=\mathbb{Z}[\alpha]_{p}/\langle \alpha^{k}+1 \rangle$. $A =[{\bf a}_{1}, \ldots, {\bf a}_{m}]$, where each ${\bf a}_{i} \in \mathcal{R}$. 
+\item Precompute and store FFT$({\bf a}_{i}, \omega)$ for each ${\bf a}_{i}$, where $\omega= e^{\pi i / k}$. Let $\hat{{\bf a}_{i}}$ = FFT$({\bf a}_{i}, \omega)$.
+\item For $i=1,\ldots,m$, do step (4) (5).
+\item For each ${\bf x}_{i}$, compute $\hat{ {\bf x}_{i}}$ = FFT$({\bf x}_{i}, \omega)$. Compute ${\bf y}_{i} = \hat{ {\bf x}_{i}} \cdot \hat{ {\bf a}_{i}}$, where $\cdot$ refers to the inner product of two vectors. Compute $\hat{{\bf y}_{i}}=\frac{1}{k}$FFT$({\bf y}_{i}, w^{-1})$. 
+\item update ${\bf z} = {\bf z}+ \hat{{\bf y}_{i}} $ mod $p$.
+\end{enumerate}
+}}}
+\caption{\label{gck_alg}Algorithms of the our GCK hash function ${\cal H}_{\bf A}$.}
+\end{figure}
+For each ${\bf x}_{i}$, we run twice FFT, which requires $O(k \log k )$ operations with small constant. Hence, the total running time for our algorithm is $O(k m \log k)$ with a small constant.
+ 
+ 
+ 
+ 

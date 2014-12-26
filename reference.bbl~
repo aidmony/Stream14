@@ -1,0 +1,93 @@
+\begin{thebibliography}{10}
+
+\bibitem{algebrabook}
+M.~Artin.
+\newblock {\em Algebra (Vol. 2.)}.
+\newblock Pearson, 2010.
+
+\bibitem{Boneh06}
+D.~Boneh and X.~Boyen.
+\newblock Memory Delegation.
+\newblock On the Impossibility of Efficiently Combining Collision Resistant Hash Functions.
+\newblock In {\em CRYPTO}, pp. 570-–583, 2006.
+
+\bibitem{DBLP:conf/crypto/ChungKLR11}
+K.-M. Chung, Y.~T. Kalai, F.-H. Liu, and R.~Raz.
+\newblock Memory Delegation.
+\newblock In {\em CRYPTO}, pp. 151--168, 2011.
+
+\bibitem{DBLP:conf/innovations/CormodeMT12}
+G.~Cormode, M.~Mitzenmacher, and J.~Thaler.
+\newblock Practical Verified Computation with Streaming Interactive Proofs.
+\newblock In {\em ITCS}, pp. 90--112, 2012.
+
+\bibitem{DBLP:journals/pvldb/CormodeTY11}
+G.~Cormode, J.~Thaler, and K.~Yi.
+\newblock Verifying Computations with Streaming Interactive Proofs.
+\newblock In {\em PVLDB}, 5(1):25--36, 2011.
+
+\bibitem{bandwidthaccounting}
+C.~Estan, G.~V.~C. Estan, and G.~Varghese.
+\newblock New Directions in Traffic Measurement and Accounting: Focusing on the
+  Elephants, Ignoring the Mice.
+\newblock In {\em ACM TOCS}, 21(3):270--313, 2003.
+
+\bibitem{DBLP:conf/crypto/GennaroGP10}
+R.~Gennaro, C.~Gentry, and B.~Parno.
+\newblock Non-interactive Verifiable Computing: Outsourcing Computation to
+  Untrusted Workers.
+\newblock In {\em CRYPTO}, pp. 465--482, 2010.
+
+\bibitem{GCK}
+V.~Lybuashevsky and D.~Micciancio.
+\newblock Generalized Compact Knapsacks Are Collision Resistant.
+\newblock In {\em ICALP}, pp. 144--155, 2006.
+
+\bibitem{swifft}
+V.~Lybuashevsky, D.~Micciancio, C.~Peikert, and A.~Rosen.
+\newblock Swifft: A Modest Proposal for FFT Hashing.
+\newblock In {\em FSE}, pp. 54--72, 2008.
+
+\bibitem{m-cds-89}
+R.~C. Merkle.
+\newblock A Certified Digital Signature.
+\newblock In {\em CRYPTO}, pp. 218--238, 1989.
+
+\bibitem{DBLP:journals/siamcomp/MicciancioR07}
+D.~Micciancio and O.~Regev.
+\newblock Worst-case to Average-case Reductions Based on Gaussian Measures.
+\newblock In {\em SICOMP}, 37(1):267--302, 2007.
+
+\bibitem{lattice}
+D.~Micciancio and O.~Regev.
+\newblock Lattice-based Cryptography.
+\newblock In {\em PQCRPTO}, pp. 147--191, 2009.
+
+\bibitem{DBLP:conf/eurocrypt/PapamanthouSTY13}
+C.~Papamanthou, E.~Shi, R.~Tamassia, and K.~Yi.
+\newblock Streaming Authenticated Data Structures.
+\newblock In {\em EUROCRYPT}, pp. 353--370, 2013.
+
+\bibitem{cpap-rt-07}
+C.~Papamanthou and R.~Tamassia.
+\newblock Time and Space Efficient Algorithms for Two-party Authenticated Data
+  Structures.
+\newblock In {\em ICICS}, pp. 1--15, 2007.
+
+\bibitem{DBLP:journals/iacr/ParnoRV11}
+B.~Parno, M.~Raykova, and V.~Vaikuntanathan.
+\newblock How to Delegate and Verify in Public: Verifiable Computation from
+  Attribute-based Encryption.
+\newblock In {\em TCC}, pp. 422--439, 2012.
+
+\bibitem{verifiable-data-streaming}
+D.~Shr{\"o}der, and H.~Shr{\"o}der.
+\newblock Verifiable Data Streaming.
+\newblock In {\em CCS}, pp. 953--964, 2012.
+
+\bibitem{wagner02}
+D.~Wagner.
+\newblock A Generalized Birthday Problem.
+\newblock In {\em CRYPTO}, pp. 288--303, 2002.
+
+\end{thebibliography}

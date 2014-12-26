@@ -1,0 +1,26 @@
+\vfill\eject\section{Security Analysis}\label{attacks}
+We have shown that the GCK hash function chosen in this paper is collision-resistant. In this section, we 
+study its cryptanalysis, and determine the concrete levels of security against the best known attacks. Specifically, we consider the {\it generalized birthday attacks}~\cite{wagner02} and the {\it lattice attacks}~\cite{lattice}.
+
+As it is shown in~\cite{swifft}, the product of two polynomials ${\bf a ,x } \in \mathcal{R}$ is equivalent to the matrix product of the skew-circulant matrix of $\bf a$ with $\bf x$ in the field $ \mathbb{Z}_{p}[\alpha]$. Thus, equation~\ref{product} can be represented as the matrix product of ${\cal A} \in \mathbb{Z}_{p}[\alpha]^{k \times k\cdot m}$ with ${\bf x} \in [n]^{k \cdot m}$, where ${\cal A}$ consists of $m$ skew-circulant matrices corresponding to each ${\bf a}_{i} \in \mathcal{R}$, as shown below by Equation~\ref{represent}. This formulation is the sum of a subset of the $k \cdot m$ columns of ${\cal A}$ over the field $\mathbb{Z}_{p}[\alpha]$. Relaxing the dependencies within each skew-circulant matrix, the best known algorithm for finding collision is the same one for solving the subset sum problem~\cite{wagner02}.
+
+\begin{equation}\label{represent}
+%\[
+\Sigma_{i=1}^{m} ({\bf a}_{i} \cdot {\bf x}_{i})   \,\, \in R = \begin{bmatrix} {\cal A}_{1} & {\cal A}_{2} & ... & {\cal A}_{m} \end{bmatrix} \times \left[ \begin{array}{c} x_1 \\ x_2 \\ ... \\ x_{k\cdot m} \end{array} \right]
+%\]
+\end{equation}
+
+%\babis{MAKE SURE YOU USE subscripts right (not bold)}
+\subsection{Generalized Birthday Attacks}
+Finding a collision in our GCK hash function is equivalent to finding a nonzero ${\bf x} \in \{-n,\ldots,n\}^{k\cdot m}$ such that  ${\cal A} \cdot {\bf x =0}$ mod $p$, where {\cal A} is the $k \times k\cdot m$ matrix shown above. We provide the best known attack algorithm based on Wagner's work~\cite{wagner02}.
+\begin{enumerate}
+\item Divide the columns of $\cal A$ into $m$ groups, each of which consists of $k$ columns. 
+\item Create a list of $(2n+1)^{k}$ vectors where each vector is a different $\{-n,\ldots,n\}$ combination of $k$ columns within the group.
+\item Finding one vector from each list such that their sum is $\bf 0$ in $\mathbb{Z}_{p}[\alpha]$ is the $k$-list problem studied by Wagner~\cite{wagner02}\footnote{k-list problem consider the condition when vectors are random and independent. Relaxing the dependencies is a conservative assumption. Hence, the lower bound analysis still holds}. Wagner's algorithm has $O(2^{\lfloor{\log m} \rfloor} p^{k/(1+\lfloor{\log m} \rfloor)})$ time and space complexity. By constraint~\ref{gba_constraint} in Algorithm~\ref{config_alg}, we achieve the required level of security against the best known generalized birthday attack algorthms.
+\end{enumerate}
+We briefly illustrate how Wagner's algorithm works here. The first observation is solving $m$-sum problem is computational equivalent to solving a $m'<m$-sum problem. Pick one vector per list from lists $m'+1, ..., m$, and denote their sum as $\bf c$. Applying the $m'$-sum algorithm to find the solution for sum$={\bf -c}$ mod $p$ over the first $m'$ lists will solve the corresponding $m$-sum problem. In our case, the $m$-sum problem is reduced to a $k'$-sum problem, where $k^{'} =2^{\lfloor \log m \rfloor}$ is the largest power of two less than $m$.
+%\babis{Please improve writing}
+The algorithm follows a recursive fashion on a complete binary tree of $\lfloor \log m \rfloor$ depth. It first extends each list to size $O(p^{k/(1+\lfloor{\log m} \rfloor)} )$. Then, it constructs new lists with ${h \cdot k/(1+\lfloor{\log m} \rfloor)}$ more zero entries at internal layer of height $h$. Finally, at the root we will find the vectors that gives us $\bf 0-$sum solution. Notice that this algorithm easily applies to sum=$\bf c$ problem, where $\bf c$ is an arbitrary vector.
+\subsection{Lattice Attacks}
+According to the analysis in~\cite{lattice}, collisions in our GCK hash functions are vectors in the $k\cdot m$-dimensional lattice with coordinates in $\{-n,\ldots,n\}$. The Euclidean length of such vectors can at most be $n\sqrt{k\cdot m}$. However, the state of art lattice reduction algorithm cannot find non-trivial lattice vectors of which the Euclidean length is less than $2^{2\sqrt{k \log p \log \delta}}$, where $\delta=1.01$. By constraint~\ref{lattice_constraint} in Algorithm~\ref{config_alg}, the best known lattice attack algorithm cannot find collision in our GCK hash functions efficiently. 
+

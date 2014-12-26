@@ -1,0 +1,4 @@
+\section{Conclusion}\label{conclusion}
+This paper proposes an abstract construction of a streaming authenticated data structure, and presents two instantiations of the proposed abstraction. The first intantiation is the PSTY work~\cite{DBLP:conf/eurocrypt/PapamanthouSTY13}. The second instantiation is a scheme with a different collision-resistant hash function, which is based on the generalized compact knapsack (GCK) problem~\cite{GCK}. The new hash function is carefully parameterized, such that it is secure against state-of-the-art attacks~\cite{wagner02,lattice}. 
+
+We implement both schemes. Our experiments highlight major savings in prover complexity and public key size of our second (new) instantiation over the PSTY work.

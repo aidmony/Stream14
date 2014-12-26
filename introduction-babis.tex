@@ -1,0 +1,33 @@
+\vfill\eject\section{Introduction}\label{introduction}
+We consider verifiable computation in a \textit{streaming} setting, where a client (verifier) and a server (prover) observe a rapidly evolving data stream  $x_{1},x_{2},\ldots,x_{n}$, which can be stored in its entirety only by the server. The client has \emph{limited local space} (e.g., logarithmic) and can keep only a small and \emph{easily updatable} summary of the data stream. In such a setting, we wish to construct protocols that enable verification of computation on the data stream (e.g., range search queries) via \emph{efficiently computable} proofs provided by the server.
+
+Many prior verifiable computation schemes are unsuitable in the streaming setting: For example, some schemes~\cite{DBLP:conf/crypto/GennaroGP10, DBLP:journals/iacr/ParnoRV11} require the client have access to all the data in the stream ahead of time in order to perform some preprocessing, leading to linear client space; Or they allow the client update his summary through an interactive protocol between the client and the server (e.g.,~\cite{cpap-rt-07}). Due to the nature of the streaming setting, however, interactions can be very expensive. For example, consider a network traffic 
+accounting application~\cite{bandwidthaccounting},
+where an ISP charges a customer based on the type and duration of its network flows.
+To enforce that the ISP is performing the accounting correctly,
+the ISP logs a customer's network flows
+such that the customer can later make queries to the logs 
+to perform auditing (typically the customer does not have sufficient
+local storage to log all the flows).
+In such high link-speed settings, performing an interactive protocol
+with every packet or flow sent is very expensive.
+
+\smallskip
+\noindent{\bf Related Work.}
+Existing streaming verifiable protocols~\cite{DBLP:conf/crypto/ChungKLR11, DBLP:conf/innovations/CormodeMT12, DBLP:journals/pvldb/CormodeTY11} are efficient in terms of verifier complexity. However, their prover complexity is linear even for sublinear computations such as membership and range search queries on a stream of elements drawn from an ordered universe.
+
+Schr\"oder and Schr\"oder~\cite{verifiable-data-streaming} were among the first to provide a verifiable data streaming protocol with logarithmic prover complexity. Their construction assumes a sequential stream and therefore cannot efficiently support non-membership and range search queries. However, as opposed to this work, their scheme achieves the unique property of maintaining the same public key while the stream elements are observed.
+
+Papamanthou, Shi, Tamassia and Yi~\cite{DBLP:conf/eurocrypt/PapamanthouSTY13} (referred to as PSTY paper in the following) proposed an efficient streaming verifiable scheme with logarithmic proof size that supports verifiable membership, successor, frequency and range query. In this scheme, the verifier and the prover make updates {\it independently} of each other and updates are \emph{non-interactive}. For any range query (i.e., return the elements in the range $[x, y]$), the prover computes a proof in $O(\log M \log n)$ time, where $n$ is an upper bound on the size of the stream and $M$ is the size of the universe. 
+
+Despite its prover efficiency and query expressiveness, the PSTY scheme~\cite{DBLP:conf/eurocrypt/PapamanthouSTY13} has two problems. First, the protocol is rather complicated, and does not provide a good intuition of the high level scheme design. Second, the scheme is not practical since it uses Ajtai's collision resistant hash function based on the {\it small integer problem}~\cite{DBLP:journals/siamcomp/MicciancioR07}, which has a very large public key size.
+
+\smallskip
+\noindent {\bf Our contributions. } Our contributions are as follows:
+\begin{enumerate}
+\item We propose an abstract construction of a streaming authenticated data structure that can be instantiated with a class of hash functions, whose properties we formally define. Our abstract construction has the same computational efficiency, as well as query expressiveness of the PSTY work, which we show to comply with our proposed abstraction.
+\item We introduce a class of hash functions based on the {\it generalized compact knapsack problem} (GCK) that fits our abstract scheme. The GCK hash function is proven to be collision resistant based on the worst case complexity assumption on cyclic lattices by Lyubasevsky and Micciancio~\cite{GCK}. We study the efficiency and cryptanalysis of our new hash function in detail. We also show that our new hash function achieves the desired level of security against state-of-the-art attacks.
+\item We implement our streaming verifiable scheme using both hash functions (one from PSTY and the new one) and we compare the two implementations. The implementation using the new hash function achieves 7-8 times faster verification and 2-3 times faster updating with significantly smaller key size. On a stream of length $2^{32}$ in a universe of $2^{32}$ unique elements, it takes $0.27$ seconds for verifying membership and $0.98$ seconds for each update on a desktop machine with $16$GB RAM. 
+\end{enumerate}
+The paper below is organized as follows. In Section~\ref{sads}, we review the notations and basic definitions of the streaming authenticated data structures (SADS) scheme, as well as the primitive, the generalized hash trees, that PSTY~\cite{DBLP:conf/eurocrypt/PapamanthouSTY13} introduces. In Section~\ref{abstract_construction}, we present an abstract SADS construction which is efficient in terms of update, query and verification. The PSTY scheme~\cite{DBLP:conf/eurocrypt/PapamanthouSTY13} is shown to be a special instantiation of our abstract SADS. In section~\ref{gck},  we carefully parameterize a class of collision-resistant GCK hash functions that fits our abstract SADS. Section~\ref{attacks} studies the cryptanalysis of our GCK hash function against the {\it generalized birthday attacks}~\cite{wagner02} and the {\it lattice attacks}~\cite{lattice}. Section~\ref{modification} proposes a modified construction that reduces the space complexity by a factor of $\sqrt {n}$. Section~\ref{experiments} provides the experimental results based on the implementations of both the hash function in PSTY~\cite{DBLP:conf/eurocrypt/PapamanthouSTY13} and our new GCK hash function. Section~\ref{conclusion} concludes this paper.
+
